@@ -11,11 +11,11 @@ else
   exit 1
 fi
 
-read -a flags <<< "$(tmux display -p "x#{pane_mode} #{mouse_any_flag} #{keypad_flag} #{alternate_on}")"
+read -a flags <<< "$(tmux display -p "#{pane_in_mode} #{mouse_any_flag} #{keypad_flag} #{alternate_on}")"
 
-if [[ "${flags[0]}" == "xcopy-mode" ]]; then
+if [[ "${flags[0]}" == "1" ]]; then
   exit 1 # return 1 to indicate forward mouse message
-elif [[ "${flags[0]}" == "x" ]]; then
+else
   # normal mode
   if [[ "${flags[1]}" == "1" ]]; then
     # mouse support turned on, forward mouse message
