@@ -3,6 +3,11 @@ My tmux configure file
 
 A fine-tuned tmux configure file.
 
+### Usage
+
+    $ cd <some-where>
+    $ git clone https://github.com/jinchizhong/my-tmux
+    $ ln -s <some-where>/my-tmux/tmux.conf ~/.tmux.conf
 
 ### Features
 
