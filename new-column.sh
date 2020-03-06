@@ -49,4 +49,5 @@ for ((i=${#breaked_pane[@]}-1; i >= 0; --i)); do
   last_id=$id
 done
 
+tmux select-pane -t $cur_pane_id
 tmux select-pane -t $new_pane_id
