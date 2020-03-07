@@ -43,6 +43,7 @@ A fine-tuned tmux configure file.
 
 | Key | Function |
 | - | - |
+| F1~F4 | Switch to column 1~4 |
 | C-b <left/right/up/down> | Focus left/right/up/down pane |
 | C-b - | Create new pane below current pane |
 | C-b \| | Create new column after current column |
@@ -73,38 +74,38 @@ Most of keys support repeat, for example:
 
 | Key | Function |
 | - | - |
-| <up/down/left/right> | move cursor |
-| <h/j/k/l> | move cursor (vim style) |
-| w | move cursor by word |
-| W | move cursor by word (space-separated) |
-| e | move cursor by word-end |
-| E | move cursor by word-end (space-separated) |
-| b | backward move cursor by word |
-| B | backward move cursor by word (space-separated) |
+| <up/down/left/right> | Move cursor |
+| <h/j/k/l> | Move cursor (vim style) |
+| w | Move cursor by word |
+| W | Move cursor by word (space-separated) |
+| e | Move cursor by word-end |
+| E | Move cursor by word-end (space-separated) |
+| b | Backward move cursor by word |
+| B | Backward move cursor by word (space-separated) |
 | - | - |
-| 0 | move to start of the line |
-| ^ | move to first character of line |
-| $ | move to end of the line |
-| Home | move to start of the line |
-| End | move to end of the line |
-| PageUp | page up |
+| 0 | Move to start of the line |
+| ^ | Move to first character of line |
+| $ | Move to end of the line |
+| Home | Move to start of the line |
+| End | Move to end of the line |
+| PageUp | Page up |
 | PageDown | Page down |
 | gg | Move to the first line |
 | G | Move to the last line |
 | <num>G | Move to line <num> |
 | - | - |
-| / | begin search |
-| ? | begin reverse search |
-| n | search next |
-| N | search previous |
+| / | Begin search |
+| ? | Begin reverse search |
+| n | Search next |
+| N | Search previous |
 | - | - |
-| v | begin selection |
-| V | begin selection with line selection mode |
-| C-v | begin selection with block selection mode |
-| y | copy to clipboard |
-| Y | copy to selection(linux primary clipboard) |
-| Esc | clear selection |
-| q | quit copy-mode |
+| v | Begin selection |
+| V | Begin selection with line selection mode |
+| C-v | Begin selection with block selection mode |
+| y | Copy to clipboard |
+| Y | Copy to selection(linux primary clipboard) |
+| Esc | Clear selection |
+| q | Quit copy-mode |
 
 ### Clipboard
 
@@ -117,9 +118,9 @@ Most of keys support repeat, for example:
 
 | Action | Function |
 | - | - |
-| left click pane | active pane |
-| right click pane | mark pane, then you can left click another pane to swap them |
-| drag in pane | select content, then you can right click to copy them |
-| middle click in pane | linux style paste action |
-| wheel up/down in pane | if program run in pane support mouse wheel, translate mouse event and send to it, otherwise start copy-mode |
-| click on window label | switch to window |
+| Left click pane | Active pane |
+| Right click pane | Mark pane, then you can left click another pane to swap them |
+| Drag in pane | Select content, then you can right click to copy them |
+| Middle click in pane | Linux style paste action |
+| Wheel up/down in pane | If program run in pane support mouse wheel, translate mouse event and send to it, otherwise start copy-mode |
+| Click on window label | Switch to window |
