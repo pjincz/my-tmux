@@ -51,7 +51,8 @@ A fine-tuned tmux configure file.
 | C-b z | Zoom current pane |
 | C-b k | Kill current pane |
 | C-b m | Mark current pane |
-| C-b space | Swap current pane and marked pane |
+| C-b space | [when has pane marked] Swap current pane and marked pane |
+|           | [when no pane marked] Even columns |
 | C-a <up/down/left/right> | Resize current pane |
 | C-a C-<up/down/left/right> | Resize current pane slowly |
 | C-a + | Enlarge current pane |
