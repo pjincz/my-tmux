@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import re
 import sys
 import subprocess
 from collections import namedtuple
@@ -19,6 +20,13 @@ class Box:
   y: int
   children: list
   pane_id: str
+
+  def panes(self):
+    if self.type == 'pane':
+      yield self
+
+    for box in self.children:
+      yield from box.panes()
 
   def find_pane(self, pane_id):
     if self.pane_id == pane_id:
@@ -206,7 +214,8 @@ class Tmux:
     sep = '--5763599105--'
     query = sep.join('#{'+x+'}' for x in fields)
     line = self.run_command('display', '-p', '-F', query).strip()
-    return namedtuple('info', fields, rename=True)(*line.split(sep))
+    t = namedtuple('info', [re.sub('^@', '', x) for x in fields])
+    return t(*line.split(sep))
 
   def setw(self, key, value):
     self.run_command('setw', key, str(value))
@@ -214,16 +223,43 @@ class Tmux:
   def select_pane(self, pane_id):
     self.run_command('select-pane', '-t', pane_id)
 
-  def apply_layout(self, layout):
+  def list_pane(self, *fields):
+    sep = '--5763599105--'
+    query = sep.join('#{'+x+'}' for x in fields)
+    lines = self.run_command('list-pane', '-F', query).strip()
+    t = namedtuple('info', [re.sub('^@', '', x) for x in fields])
+    return [t(*line.split(sep)) for line in lines.split('\n')]
+
+  def apply_layout(self, layout, active_pane):
     if type(layout) == str:
       layout = LayoutParser().parse(layout)
 
-    # TODO: verify match panes
+    panes_in_window = [x[0] for x in self.list_pane('pane_id')]
+    panes_in_layout = [p.pane_id for p in layout.panes()]
+    if sorted(panes_in_window) != sorted(panes_in_layout):
+      raise Exception('apply_layout failed, panes list not match')
 
     layout_s = layout.to_string()
     self.run_command('select-layout', layout_s)
 
-    # TODO: rearrange panes
+    for i in range(len(panes_in_layout)):
+      if panes_in_window[i] == panes_in_layout[i]:
+        continue
+
+      ii = panes_in_window.index(panes_in_layout[i])
+      self.swap_pane(panes_in_window[i], panes_in_window[ii], active_pane)
+      panes_in_window[ii] = panes_in_window[i]
+      panes_in_window[i] = panes_in_layout[i]
+
+  def swap_pane(self, pane1, pane2, active_pane):
+    if active_pane != pane1 and active_pane != pane2:
+      self.run_command('swap-pane', '-d', '-s', pane1, '-t', pane2)
+      return
+
+    if active_pane == pane1:
+      pane1, pane2 = pane2, pane1
+
+    self.run_command('swap-pane', '-s', pane1, '-t', pane2)
 
 
 def select_column(idx_1base):
@@ -268,14 +304,70 @@ def select_column(idx_1base):
 
 def even_columns():
   tmux = Tmux()
-  info = tmux.query('window_layout')
+  info = tmux.query('window_layout', 'pane_id')
   layout = LayoutParser().parse(info[0])
 
   if layout.type != 'hbox':
     return
 
   layout.adjust([1] * len(layout.children))
-  tmux.apply_layout(layout)
+  tmux.apply_layout(layout, info.pane_id)
+
+
+def swap_columns(column1_1base, column2_1base):
+  c1 = column1_1base - 1
+  c2 = column2_1base - 1
+  if c1 == c2:
+    return
+
+  tmux = Tmux()
+  info = tmux.query('window_layout', 'pane_id')
+  layout = LayoutParser().parse(info[0])
+
+  if layout.type != 'hbox':
+    return
+
+  columns = layout.children
+
+  if c1 < 0 or c1 >= len(columns):
+    return
+  if c2 < 0 or c2 >= len(columns):
+    return
+
+  columns[c1], columns[c2] = columns[c2], columns[c1]
+  layout.adjust([x.w for x in columns])
+
+  tmux.apply_layout(layout, info.pane_id)
+
+
+def move_column(column_idx_1base, dir):
+  assert dir == 'left' or dir == 'right'
+
+  tmux = Tmux()
+  info = tmux.query('window_layout', 'pane_id')
+  layout = LayoutParser().parse(info[0])
+
+  if layout.type != 'hbox':
+    return
+
+  columns = layout.children
+
+  if column_idx_1base == 'cur':
+    for i in range(len(columns)):
+      if columns[i].find_pane(info.pane_id):
+        col = i
+  else:
+    col = int(column_idx_1base) - 1
+
+  if col < 0 or col >= len(columns):
+    return
+
+  next_col = (col + 1 if dir == 'right' else col - 1) % len(columns)
+
+  columns[col], columns[next_col] = columns[next_col], columns[col]
+  layout.adjust([x.w for x in columns])
+
+  tmux.apply_layout(layout, info.pane_id)
 
 
 def test():
@@ -293,6 +385,14 @@ def main(cmd, args):
 
   elif cmd == 'even-column':
     even_columns()
+
+  elif cmd == 'swap-column':
+    assert len(args) == 2
+    swap_columns(int(args[0]), int(args[1]))
+
+  elif cmd == 'move-column':
+    assert len(args) == 2
+    move_column(*args)
 
   else:
     raise Exception('unknown subcommand: ' + cmd)

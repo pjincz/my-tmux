@@ -44,6 +44,7 @@ A fine-tuned tmux configure file.
 | Key | Function |
 | - | - |
 | F1~F4 | Switch to column 1~4 |
+| C-b {/} | Move column to left/right side |
 | C-b <left/right/up/down> | Focus left/right/up/down pane |
 | C-b - | Create new pane below current pane |
 | C-b \| | Create new column after current column |
