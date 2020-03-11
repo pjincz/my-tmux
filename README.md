@@ -108,6 +108,7 @@ Most of keys support repeat, for example:
 | Y | Copy to selection(linux primary clipboard) |
 | Esc | Clear selection |
 | q | Quit copy-mode |
+| C-c | Quit copy-mode |
 
 ### Clipboard
 
@@ -121,7 +122,9 @@ Most of keys support repeat, for example:
 | Action | Function |
 | - | - |
 | Left click pane | Active pane |
-| Right click pane | Mark pane, then you can left click another pane to swap them |
+| Right click pane | Mark pane, when there's marked pane: |
+|                  | left click another pane to swap them |
+|                  | middle click another pane to paste marked pane |
 | Drag in pane | Select content, then you can right click to copy them |
 | Middle click in pane | Linux style paste action |
 | Wheel up/down in pane | If program run in pane support mouse wheel, translate mouse event and send to it, otherwise start copy-mode |
