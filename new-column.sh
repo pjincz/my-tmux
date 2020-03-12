@@ -37,7 +37,7 @@ while true; do
   tmux break-pane -d -s {bottom}
 done
 
-tmux split-window -h
+tmux split-window -h -c '#{pane_current_path}'
 new_pane_id=`active_pane_id`
 
 last_id=$top_pane_id
