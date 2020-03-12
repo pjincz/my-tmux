@@ -11,6 +11,7 @@ else
   tmux set -s -t tmp-tabs "status-left" ""
   tmux set -s -t tmp-tabs "status-right" ""
   tmux set -s -t tmp-tabs "status-style" "bg=colour240"
+  tmux set-hook -t tmp-tabs window-unlinked "run-shell ${THIS_DIR}/on-tab-close.sh"
 
   tmux swap-pane -d -t tmp-tabs:1
   pid=`tmux display -p "#{pane_id}"`
