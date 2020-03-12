@@ -13,13 +13,15 @@ A fine-tuned tmux configure file.
 
 1. Column based pane layout
 
-2. Two different prefixes for different commands
+2. Tabbed pane
 
-3. Key-bindings in copy-mode exactly same to vim
+3. Two different prefixes for different commands
 
-4. System clipboard support
+4. Key-bindings in copy-mode exactly same to vim
 
-5. Fine-tuned mouse support
+5. System clipboard support
+
+6. Fine-tuned mouse support
 
 ### Session shortcuts
 
@@ -35,9 +37,10 @@ A fine-tuned tmux configure file.
 | - | - |
 | C-b c | New window |
 | C-b 1-9 | Select window 1-9 |
-| C-b tab | Switch between recent two windows |
 | C-b , | Rename window |
 | C-b . | Move window |
+| C-b n | Select next window |
+| C-b p | Select prev window |
 
 ### Pane shortcuts
 
@@ -58,6 +61,9 @@ A fine-tuned tmux configure file.
 | C-a C-<up/down/left/right> | Resize current pane slowly |
 | C-a + | Enlarge current pane |
 | C-a - | Reduce current pane |
+| - | - |
+| C-b t | Create a tab |
+| C-b tab | Switch to next tab |
 
 ### Copy mode (View history mode)
 
