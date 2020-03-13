@@ -3,25 +3,29 @@ My tmux configure file
 
 A fine-tuned tmux configure file.
 
-### Usage
-
-    $ cd <some-where>
-    $ git clone https://github.com/jinchizhong/my-tmux
-    $ ln -s <some-where>/my-tmux/tmux.conf ~/.tmux.conf
-
 ### Features
 
 1. Column based pane layout
 
 2. Tabbed pane
 
-3. Two different prefixes for different commands
+3. Fine-tuned mouse support (with mouse message translate support)
 
-4. Key-bindings in copy-mode exactly same to vim
+4. System clipboard support
 
-5. System clipboard support
+5. Key-bindings in copy-mode exactly same to vim
 
-6. Fine-tuned mouse support
+6. Two different prefixes for different commands
+
+7. New pane inherit current path
+
+### Usage
+
+For now, only tmux 2.9 is tested. Tmux 3.0 should also works.
+
+    $ cd <some-where>
+    $ git clone https://github.com/jinchizhong/my-tmux
+    $ ln -s <some-where>/my-tmux/tmux.conf ~/.tmux.conf
 
 ### Session shortcuts
 
